@@ -96,6 +96,20 @@ const Index = () => {
   const [poeOnly, setPoeOnly] = useState(false);
   const [activeSection, setActiveSection] = useState('catalog');
 
+  const scrollToCatalog = () => {
+    setActiveSection('catalog');
+    setTimeout(() => {
+      const catalogElement = document.getElementById('catalog-section');
+      if (catalogElement) {
+        catalogElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  };
+
+  const openDocumentation = () => {
+    setActiveSection('docs');
+  };
+
   const filteredSwitches = switches.filter(sw => {
     const manufacturerMatch = selectedManufacturers.length === 0 || selectedManufacturers.includes(sw.manufacturer);
     const priceMatch = sw.price >= priceRange[0] && sw.price <= priceRange[1];
@@ -153,6 +167,14 @@ const Index = () => {
               >
                 Контакты
               </button>
+              <button
+                onClick={() => setActiveSection('docs')}
+                className={`text-sm font-medium transition-colors hover:text-primary ${
+                  activeSection === 'docs' ? 'text-primary' : 'text-foreground'
+                }`}
+              >
+                Документация
+              </button>
             </nav>
           </div>
         </div>
@@ -169,11 +191,11 @@ const Index = () => {
                 Надежное оборудование для построения корпоративных сетей любой сложности
               </p>
               <div className="flex justify-center gap-4">
-                <Button size="lg" className="text-base">
+                <Button size="lg" className="text-base" onClick={scrollToCatalog}>
                   <Icon name="ShoppingCart" size={20} className="mr-2" />
                   Перейти к каталогу
                 </Button>
-                <Button size="lg" variant="outline" className="text-base">
+                <Button size="lg" variant="outline" className="text-base" onClick={openDocumentation}>
                   <Icon name="FileText" size={20} className="mr-2" />
                   Документация
                 </Button>
@@ -181,7 +203,7 @@ const Index = () => {
             </div>
           </section>
 
-          <section className="py-16">
+          <section id="catalog-section" className="py-16">
             <div className="container mx-auto px-4">
               <div className="grid md:grid-cols-4 gap-8">
                 <aside className="md:col-span-1 animate-scale-in">
@@ -486,6 +508,202 @@ const Index = () => {
                 </div>
               </CardContent>
             </Card>
+          </div>
+        </section>
+      )}
+
+      {activeSection === 'docs' && (
+        <section className="py-16 animate-fade-in">
+          <div className="container mx-auto px-4 max-w-5xl">
+            <h2 className="text-4xl font-bold mb-12 text-center">Документация</h2>
+            
+            <div className="grid md:grid-cols-3 gap-6 mb-12">
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="text-4xl mb-4">📘</div>
+                  <h3 className="font-semibold text-xl mb-2">Руководства</h3>
+                  <p className="text-muted-foreground mb-4">Пошаговые инструкции по установке и настройке оборудования</p>
+                  <Button variant="outline" className="w-full">
+                    <Icon name="Download" size={16} className="mr-2" />
+                    Скачать PDF
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="text-4xl mb-4">🔧</div>
+                  <h3 className="font-semibold text-xl mb-2">Техническая документация</h3>
+                  <p className="text-muted-foreground mb-4">Спецификации, схемы подключения и параметры</p>
+                  <Button variant="outline" className="w-full">
+                    <Icon name="Download" size={16} className="mr-2" />
+                    Скачать PDF
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="text-4xl mb-4">💡</div>
+                  <h3 className="font-semibold text-xl mb-2">База знаний</h3>
+                  <p className="text-muted-foreground mb-4">FAQ, решение типовых проблем и рекомендации</p>
+                  <Button variant="outline" className="w-full">
+                    <Icon name="ExternalLink" size={16} className="mr-2" />
+                    Перейти
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Card className="mb-8">
+              <CardContent className="p-8">
+                <h3 className="font-semibold text-2xl mb-6">Быстрый старт</h3>
+                
+                <div className="space-y-6">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold mr-4">
+                      1
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2">Распаковка и проверка</h4>
+                      <p className="text-muted-foreground">Убедитесь, что в комплекте присутствуют все компоненты: коммутатор, блок питания, кабели, документация. Проверьте отсутствие повреждений.</p>
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold mr-4">
+                      2
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2">Физическое подключение</h4>
+                      <p className="text-muted-foreground">Установите коммутатор в стойку или на стол. Подключите блок питания. Соедините консольный порт с компьютером для первичной настройки.</p>
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold mr-4">
+                      3
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2">Базовая конфигурация</h4>
+                      <p className="text-muted-foreground">Запустите терминал (PuTTY, SecureCRT). Войдите в режим настройки, установите hostname, IP-адрес управления, пароли администратора.</p>
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold mr-4">
+                      4
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2">Настройка VLAN и портов</h4>
+                      <p className="text-muted-foreground">Создайте необходимые VLAN, назначьте порты в нужные VLAN. Настройте trunk-порты для межкоммутаторных связей. Сохраните конфигурацию.</p>
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold mr-4">
+                      5
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2">Тестирование и мониторинг</h4>
+                      <p className="text-muted-foreground">Проверьте связность сети командой ping. Настройте SNMP для мониторинга. Включите логирование событий. Проверьте работу всех портов.</p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card>
+                <CardContent className="p-6">
+                  <h3 className="font-semibold text-xl mb-4 flex items-center">
+                    <Icon name="BookOpen" size={24} className="text-primary mr-2" />
+                    Популярные темы
+                  </h3>
+                  <ul className="space-y-3">
+                    <li>
+                      <a href="#" className="flex items-center text-primary hover:underline">
+                        <Icon name="ChevronRight" size={16} className="mr-2" />
+                        Настройка VLAN и trunk-портов
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" className="flex items-center text-primary hover:underline">
+                        <Icon name="ChevronRight" size={16} className="mr-2" />
+                        Конфигурация PoE и управление питанием
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" className="flex items-center text-primary hover:underline">
+                        <Icon name="ChevronRight" size={16} className="mr-2" />
+                        Резервирование и стекирование
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" className="flex items-center text-primary hover:underline">
+                        <Icon name="ChevronRight" size={16} className="mr-2" />
+                        Настройка QoS и приоритизация трафика
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" className="flex items-center text-primary hover:underline">
+                        <Icon name="ChevronRight" size={16} className="mr-2" />
+                        Обновление прошивки и резервное копирование
+                      </a>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <h3 className="font-semibold text-xl mb-4 flex items-center">
+                    <Icon name="Video" size={24} className="text-primary mr-2" />
+                    Видео-инструкции
+                  </h3>
+                  <ul className="space-y-3">
+                    <li>
+                      <a href="#" className="flex items-center text-primary hover:underline">
+                        <Icon name="Play" size={16} className="mr-2" />
+                        Первое подключение и базовая настройка (12:34)
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" className="flex items-center text-primary hover:underline">
+                        <Icon name="Play" size={16} className="mr-2" />
+                        Монтаж в стойку и кабельная инфраструктура (8:15)
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" className="flex items-center text-primary hover:underline">
+                        <Icon name="Play" size={16} className="mr-2" />
+                        Настройка SNMP мониторинга (10:20)
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" className="flex items-center text-primary hover:underline">
+                        <Icon name="Play" size={16} className="mr-2" />
+                        Диагностика и устранение неисправностей (15:47)
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" className="flex items-center text-primary hover:underline">
+                        <Icon name="Play" size={16} className="mr-2" />
+                        Оптимизация производительности сети (11:30)
+                      </a>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </section>
       )}
